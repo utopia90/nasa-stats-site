@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+
+@layer base {
+  html {
+    --color-primary: #e5f2f2;
+    --color-secondary: #22c5e2 ;
+    --color-buttons: #2a6fdb;
+    --color-typography: #6B6B6B;
+  }
+}
+
+@import "./styles/themes/light.css";
+@import "./styles/themes/dark.css";

@@ -1,0 +1,6 @@
+html[data-theme="dark"] {
+    --color-primary: #0B2447;
+    --color-secondary: #576CBC;
+    --color-buttons: #A5D7E8;
+    --color-typography: #A5D7E8;
+    }
