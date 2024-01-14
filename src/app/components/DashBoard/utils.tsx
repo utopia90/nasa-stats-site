@@ -1,4 +1,4 @@
-import MeteoritsLanding from "@/app/pages/MeteoritsLanding/MeteoritsLanding"
+import MeteoritsLanding from "@/app/pages/MeteoritsLanding"
 import ExtraVehicularActivity from "@/app/pages/ExtraVehicularActivity"
 import DinamicExtraVehicularActivity from "@/app/pages/DinamicExtraVehicularActivity"
 

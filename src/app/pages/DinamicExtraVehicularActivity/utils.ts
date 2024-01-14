@@ -10,12 +10,32 @@ export interface GraPhI { data: DataI, options: {} }
 function getDinamicOptionsData(minYear: number, maxYear: number, countryData: VehicularDataI[], country: Country) {
 
   const titleCountry = country === Country.BOTH ? 'Russia And USA' : country
+
+  const GRAPH_COLOR = '#8DA6CE'
   const options = {
     responsive: true,
     scales: {
-      y: {
-        beginAtZero: true,
+      y:{
+        grid: {
+          drawBorder: true,
+          color: GRAPH_COLOR,
       },
+        ticks:{
+            beginAtZero: true,
+            color: GRAPH_COLOR,
+            fontSize: 12,
+        }
+    },
+    x:{
+      grid: {
+        drawBorder: true,
+        color: GRAPH_COLOR,
+    },
+      ticks:{
+          color: GRAPH_COLOR,
+          fontSize: 12,
+      }
+  },
     },
     plugins: {
       legend: {
@@ -24,7 +44,7 @@ function getDinamicOptionsData(minYear: number, maxYear: number, countryData: Ve
       title: {
         display: true,
         text: `Total Number Of Extra Vehicular Activity From ${minYear} to ${maxYear} in ${titleCountry}`,
-        color: '#6B6B6B'
+        color: GRAPH_COLOR,
       },
 
     },
@@ -68,7 +88,7 @@ function getDinamicOptionsData(minYear: number, maxYear: number, countryData: Ve
         y: getTotalActivityNumberByYear(countryDataUSA, year),
         r: getBubbleSize(getTotalActivityNumberByYear(countryDataUSA, year))
       })),
-      backgroundColor: '#ff598f',
+      backgroundColor:  '#ff598f',
     })
   }
   if (country == Country.RUSSIA || country == Country.BOTH) {
@@ -79,7 +99,7 @@ function getDinamicOptionsData(minYear: number, maxYear: number, countryData: Ve
         y: getTotalActivityNumberByYear(countryDataRussia, year),
         r: getBubbleSize(getTotalActivityNumberByYear(countryDataRussia, year))
       })),
-      backgroundColor: '#01dddd',
+      backgroundColor:  '#01dddd',
     })
   }
   const data = {
