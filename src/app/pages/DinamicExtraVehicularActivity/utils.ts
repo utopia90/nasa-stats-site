@@ -8,6 +8,8 @@ export interface DataI {
 }
 export interface GraPhI { data: DataI, options: {} }
 function getDinamicOptionsData(minYear: number, maxYear: number, countryData: VehicularDataI[], country: Country) {
+
+  const titleCountry = country === Country.BOTH ? 'Russia And USA' : country
   const options = {
     responsive: true,
     scales: {
@@ -21,7 +23,7 @@ function getDinamicOptionsData(minYear: number, maxYear: number, countryData: Ve
       },
       title: {
         display: true,
-        text: `Total Number Of Extra Vehicular Activity From ${minYear} to ${maxYear} in ${country}`,
+        text: `Total Number Of Extra Vehicular Activity From ${minYear} to ${maxYear} in ${titleCountry}`,
         color: '#6B6B6B'
       },
 
