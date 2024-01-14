@@ -58,7 +58,7 @@ export default function DinamicExtraVehicularActivity() {
             <option value={Country.USA}>Usa</option>
             <option value={Country.BOTH}>Both</option>
           </select>
-          <input onKeyUp={handleYear} type="text" required placeholder="Type Year from 1965 and 1993" className="w-1/2 border-b border-secondary px-3 py-2 focus:outline-none focus:border-b-2 focus:border-secondary" />
+          <input onKeyUp={handleYear} type="text" required placeholder="Type Year from 1965 to 1993" className="w-1/2 border-b border-secondary px-3 py-2 focus:outline-none focus:border-b-2 focus:border-secondary" />
         </div>
         {showGraphic && <Bubble {...graphData} />}
       </div>
