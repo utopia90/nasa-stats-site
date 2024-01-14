@@ -22,11 +22,11 @@ function ExtraVehicularActivity() {
   const donutDataRussia = [...russiaDonutData].slice(0, DONUT_SAMPLE)
   const donutDataUSA = [...usaDonutData].slice(0, DONUT_SAMPLE)
   const { russianData, usaCountryData, donutOptions } = getDonutOptionsData(donutDataRussia, donutDataUSA)
-  
+
   if (error) return 'There was an error loading data'
   if (loading) return 'Loading...'
 
-  
+
   Chart.register(...registerables);
 
 

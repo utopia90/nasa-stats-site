@@ -4,27 +4,56 @@ import React, { useState } from 'react';
 import { Chart, registerables } from 'chart.js';
 
 
-import { Bar, Line } from 'react-chartjs-2';
+import { Line } from 'react-chartjs-2';
 import { getMappedOptionsData } from './utils';
 
 
-type DataProps = {
-  initialData: []
+export type MeteoritsData = Meteorits[]
+
+export interface Meteorits {
+  name: string
+  id: string
+  nametype: string
+  recclass: string
+  mass: string
+  fall: string
+  year: string
+  reclat: string
+  reclong: string
+  geolocation: Geolocation
 }
-export default function MeteoritsLanding({ initialData }: DataProps) {
+
+export interface Geolocation {
+  latitude: string
+  longitude: string
+}
+export type initialData = {
+  initialData: MeteoritsData
+}
+
+export default function MeteoritsLanding({ initialData }: initialData) {
   const [page, setPage] = useState<number>(0)
-  const { options, data } = getMappedOptionsData(page, initialData)
+  const { options, data, lastVisitbleYear } = getMappedOptionsData(page, initialData)
   const showBackButton = page >= 20
+  const LAST_DATA_YEAR = 2013
+
+  function handleForwardNavigation() {
+    if (lastVisitbleYear < LAST_DATA_YEAR) {
+      setPage((prevValue) => prevValue += 20)
+    } else {
+      alert("We do not have more available data")
+    }
+  }
 
   function handlePageNavigation(e: React.MouseEvent<HTMLElement>) {
     e.preventDefault()
 
-    const value = (e.target as HTMLButtonElement).value 
+    const value = (e.target as HTMLButtonElement).value
 
     if (value == 'back' && page >= 20) {
       setPage((prevValue) => prevValue -= 20)
     } else {
-      setPage((prevValue) => prevValue += 20)
+      handleForwardNavigation()
     }
   }
 

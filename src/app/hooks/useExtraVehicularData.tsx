@@ -12,7 +12,8 @@ export interface VehicularDataI {
 } 
 export enum Country  {
 USA = 'USA',
-RUSSIA = 'Russia'
+RUSSIA = 'Russia',
+BOTH  = 'Both'
 
 }
 const useExtraVehicularData = (country?: Country,  yearRange?: {min: number, max: number}, sortByDurationAsc?: boolean, sortByDurationDesc?: boolean) => {
@@ -26,7 +27,8 @@ const useExtraVehicularData = (country?: Country,  yearRange?: {min: number, max
       try {
         const response = await fetch(url);
         const jsonData = await response.json();
-        const filterDataByCountryAndYearRange = yearRange && country &&  jsonData.filter((data:  VehicularDataI) => data?.country == country && new Date(data?.date).getFullYear() >= yearRange?.min && new Date(data?.date).getFullYear() <= yearRange?.max)
+        const isRussiaOrUsa = country == Country.RUSSIA || country == Country.USA 
+        const filterDataByCountryAndYearRange =  yearRange && jsonData.filter((data:  VehicularDataI) => isRussiaOrUsa ? data?.country == country && new Date(data?.date).getFullYear() >= yearRange?.min :  new Date(data?.date).getFullYear() <= yearRange?.max  )
         const data = filterDataByCountryAndYearRange || jsonData
         const finalData = sortByDurationAsc ? data.sort((a: VehicularDataI, b: VehicularDataI) => Number(a?.duration) - Number(b.duration)) : sortByDurationDesc ? data.sort((a: VehicularDataI, b: VehicularDataI) => Number(b?.duration) - Number(a.duration)) : data
        
@@ -40,7 +42,6 @@ const useExtraVehicularData = (country?: Country,  yearRange?: {min: number, max
     fetchData();
 
   });
-
   return { data, loading, error };
 };
 

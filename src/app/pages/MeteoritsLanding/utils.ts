@@ -1,5 +1,6 @@
+import { MeteoritsData } from "./MeteoritsLanding";
 
-export const getMappedOptionsData = (page: number, rawData: any[]) => {
+export const getMappedOptionsData = (page: number, rawData: MeteoritsData) => {
   const options = {
     responsive: true,
     plugins: {
@@ -49,10 +50,11 @@ export const getMappedOptionsData = (page: number, rawData: any[]) => {
         data: dataSample.map((sample) => getTotalMeteoritsLandingByYear(new Date(sample.year).getFullYear())),
         borderColor: 'rgb(53, 162, 235)',
   }]
-  
-  };
 
-  return {options, data}
+  };
+  const lastVisitbleYear = new Date(dataSample[dataSample.length -1].year).getFullYear()
+
+  return {options, data, lastVisitbleYear }
   
 }
 
