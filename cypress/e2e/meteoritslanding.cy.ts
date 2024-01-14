@@ -29,6 +29,8 @@ describe('Meteorits Landing Main Page', () => {
 
     // Click the "Forward" button and check if back button appears
     cy.get('button[value="forward"]').click();
+
+    cy.wait(3000)
     cy.get('button[value="back"]').should('be.visible');
 
   });

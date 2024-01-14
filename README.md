@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# NASA Dashboard Application
+
+This application is a NASA dashboard site built with Next.js, Tailwind CSS, NextAuth.js, TypeScript, and tested with Cypress. It provides various statistics from the NASA API, including meteorite landings per year, extra vehicular activity stats, and a dynamic graph for personalized stats.
+
+## Features
+
+- View meteorite landing statistics
+- Access extra vehicular activity stats
+- Interactive graph for personalized statistics based on year and country selection
 
 ## Getting Started
 
-First, run the development server:
+To run the application locally, follow these steps:
 
-```bash
+1. Clone the repository from GitHub:
+git clone https://github.com/your-repo-name.git
+
+
+2. Install dependencies:
+npm install
+
+3. Run the development server:
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+5. Open your browser and navigate to http://localhost:3000 to view the application (Or the port you have configured to use)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Login Credentials
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Use the following credentials to log in to the application:
 
-## Learn More
+- Username: admin
+- Password: asafe
 
-To learn more about Next.js, take a look at the following resources:
+## Testing
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The application has been tested using Cypress. To run the tests, use the following command:
+npx cypress run
+Also can open the cypress test environment by running the following command: 
+npx cypress open
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## License
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
