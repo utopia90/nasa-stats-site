@@ -1,5 +1,9 @@
 import { MeteoritsData } from ".";
 
+
+
+export const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
 export const getMappedOptionsData = (page: number, rawData: MeteoritsData) => {
   const GRAPH_COLOR = '#8DA6CE'
 

@@ -5,7 +5,7 @@ import { Chart, registerables } from 'chart.js';
 
 
 import { Line } from 'react-chartjs-2';
-import { getMappedOptionsData } from './utils';
+import { delay, getMappedOptionsData } from './utils';
 
 
 export type MeteoritsData = Meteorits[]
@@ -36,6 +36,7 @@ export default function MeteoritsLanding({ initialData }: initialData) {
   const { options, data, lastVisitbleYear } = getMappedOptionsData(page, initialData)
   const showBackButton = page >= 20
   const LAST_DATA_YEAR = 2013
+  const [componentsVisible, setComponentsVisible] = useState(false);
 
   function handleForwardNavigation() {
     if (lastVisitbleYear < LAST_DATA_YEAR) {
@@ -56,23 +57,34 @@ export default function MeteoritsLanding({ initialData }: initialData) {
       handleForwardNavigation()
     }
   }
+  React.useEffect(() => {
+    const fetchData = async () => {
+      await delay(500); // Espera medio segundo
+      setComponentsVisible(true);
+    };
+
+    fetchData();
+  }, []);
 
   Chart.register(...registerables);
 
   return (
-    <main>
-
-      <div className="container mx-auto  w-11/12">
-        <Line options={options} data={data} />
-      </div>
-      <div className="flex justify-center items-center py-4 space-x-8">
-        {showBackButton &&
-          <button value="back" onClick={handlePageNavigation} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 min-w-40 rounded-full">
-            Back
-          </button>}
-        <button value="forward" onClick={handlePageNavigation} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 min-w-40 rounded-full">
-          Forward
-        </button>
-      </div>
-    </main>)
+    <>
+      { componentsVisible && 
+        <main>
+          <div className="container mx-auto  w-11/12">
+            <Line options={options} data={data} />
+          </div>
+          <div className="flex justify-center items-center py-4 space-x-8">
+            {showBackButton &&
+              <button value="back" onClick={handlePageNavigation} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 min-w-40 rounded-full">
+                Back
+              </button>}
+            <button value="forward" onClick={handlePageNavigation} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 min-w-40 rounded-full">
+              Forward
+            </button>
+          </div>
+        </main>
+      }
+    </>)
 }

@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { userSelectionOptions } from '../DashBoard/utils';
-import {changeTheme} from './../../utils/changeTheme'
+import { changeTheme } from './../../utils/changeTheme'
 
 
 type SideBarProps = {
@@ -9,7 +9,7 @@ type SideBarProps = {
 export enum ThemeOptions {
   DARK = 'dark',
   LIGHT = 'light'
-} 
+}
 function Sidebar({ setUserSelection }: SideBarProps) {
   const [lightTheme, setLightTheme] = useState<boolean>(true)
   function handleUserSelection(e: React.MouseEvent<HTMLButtonElement>) {
@@ -19,10 +19,10 @@ function Sidebar({ setUserSelection }: SideBarProps) {
 
     setUserSelection(element.value as unknown as userSelectionOptions)
   }
-  function toggleTheme(){
-     setLightTheme(!lightTheme)
+  function toggleTheme() {
+    setLightTheme(!lightTheme)
   }
-  
+
   useEffect(() => {
     const theme = lightTheme ? ThemeOptions.LIGHT : ThemeOptions.DARK
     changeTheme(theme)
