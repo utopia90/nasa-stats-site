@@ -15,27 +15,27 @@ function getDinamicOptionsData(minYear: number, maxYear: number, countryDataRuss
   const options = {
     responsive: true,
     scales: {
-      y:{
+      y: {
         grid: {
           drawBorder: true,
           color: GRAPH_COLOR,
-      },
-        ticks:{
-            beginAtZero: true,
-            color: GRAPH_COLOR,
-            fontSize: 12,
-        }
-    },
-    x:{
-      grid: {
-        drawBorder: true,
-        color: GRAPH_COLOR,
-    },
-      ticks:{
+        },
+        ticks: {
+          beginAtZero: true,
           color: GRAPH_COLOR,
           fontSize: 12,
-      }
-  },
+        }
+      },
+      x: {
+        grid: {
+          drawBorder: true,
+          color: GRAPH_COLOR,
+        },
+        ticks: {
+          color: GRAPH_COLOR,
+          fontSize: 12,
+        }
+      },
     },
     plugins: {
       legend: {
@@ -75,7 +75,7 @@ function getDinamicOptionsData(minYear: number, maxYear: number, countryDataRuss
 
   const datasets = []
 
-  
+
   if (country == Country.USA || country == Country.BOTH) {
     datasets.push({
       label: 'USA',
@@ -84,7 +84,7 @@ function getDinamicOptionsData(minYear: number, maxYear: number, countryDataRuss
         y: countryDataUsa[i],
         r: getBubbleSize(countryDataUsa[i])
       })),
-      backgroundColor:  '#ff598f',
+      backgroundColor: '#ff598f',
     })
   }
   if (country == Country.RUSSIA || country == Country.BOTH) {
@@ -95,7 +95,7 @@ function getDinamicOptionsData(minYear: number, maxYear: number, countryDataRuss
         y: countryDataRussia[i],
         r: getBubbleSize(countryDataRussia[i])
       })),
-      backgroundColor:  '#01dddd',
+      backgroundColor: '#01dddd',
     })
   }
   const data = {
