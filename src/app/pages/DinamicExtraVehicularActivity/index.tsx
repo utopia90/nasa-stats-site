@@ -8,13 +8,16 @@ import { GraPhI, getDinamicOptionsData } from './utils';
 
 export default function DinamicExtraVehicularActivity() {
 
-  const [minYear, setMinYear] = useState(0)
+
   const RANGE_YEARS = 20
   const MIN_YEAR = 1965
   const MAX_YEAR = 1993
-  const maxYear = Number(minYear) + RANGE_YEARS
+
+  const [minYear, setMinYear] = useState(0)
+  const maxYear = minYear + RANGE_YEARS
   const [graphData, setGraphData] = useState<GraPhI>(Object)
   let [country, setCountry] = useState('')
+
   const { yearsData: countryDataRusia } = useExtraVehicularData( Country.RUSSIA, { min: minYear, max: maxYear })
   const { yearsData: countryDataUsa } = useExtraVehicularData( Country.USA, { min: minYear, max: maxYear })
 
@@ -47,7 +50,7 @@ export default function DinamicExtraVehicularActivity() {
 
   useEffect(() => {
     handleGraphData()
-  }, [countryDataUsa, countryDataRusia])
+  }, [minYear, country])
 
   Chart.register(...registerables);
 
