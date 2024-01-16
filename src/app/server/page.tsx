@@ -5,7 +5,11 @@ import DashBoard from '../components/DashBoard';
 
 
  async function Home() {
-  const firstYearsRange = {min: 1822, max: 1832}
+  const MIN_YEAR = 1822
+  const YEARS_RANGE = 10
+  const MAX_YEAR = MIN_YEAR + YEARS_RANGE
+
+  const firstYearsRange = {min: MIN_YEAR, max: MAX_YEAR}
   let yearsRange: number[] = getTotalMeteoritCountInYearsRange(firstYearsRange)
 
   return (
