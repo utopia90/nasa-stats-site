@@ -10,12 +10,16 @@ export default function DinamicExtraVehicularActivity() {
 
   const [minYear, setMinYear] = useState(0)
   const RANGE_YEARS = 20
+  const MIN_YEAR = 1965
+  const MAX_YEAR = 1993
   const maxYear = Number(minYear) + RANGE_YEARS
   const [graphData, setGraphData] = useState<GraPhI>(Object)
   let [country, setCountry] = useState('')
-  const { data: countryData } = useExtraVehicularData(country as Country, { min: minYear, max: maxYear })
+  const { yearsData: countryDataRusia } = useExtraVehicularData( Country.RUSSIA, { min: minYear, max: maxYear })
+  const { yearsData: countryDataUsa } = useExtraVehicularData( Country.USA, { min: minYear, max: maxYear })
 
-  const showGraphic = minYear >= 1965 && country?.length > 0
+
+  const showGraphic = minYear >= MIN_YEAR && country?.length > 0
 
 
   function handleSelect(e: ChangeEvent<HTMLSelectElement>) {
@@ -24,7 +28,7 @@ export default function DinamicExtraVehicularActivity() {
   }
 
   function handleGraphData() {
-    const { data, options } = getDinamicOptionsData(minYear, maxYear, countryData, country as Country)
+    const { data, options } = getDinamicOptionsData(minYear, maxYear, countryDataRusia, countryDataUsa, country as Country)
     const graphData: GraPhI = {
       data: data,
       options: options
@@ -34,16 +38,16 @@ export default function DinamicExtraVehicularActivity() {
   function handleYear(e: React.KeyboardEvent<HTMLInputElement>) {
     const year = Number(e.currentTarget.value)
     if (year < 1000) return;
-    if (Number(year) >= 1965 && Number(year) <= 1993) {
+    if (Number(year) >= MIN_YEAR && Number(year) <= MAX_YEAR) {
       setMinYear(Number(year))
     } else {
-      alert('Please write a year between 1965 and 1993')
+      alert(`Please write a year between ${MIN_YEAR} and ${MAX_YEAR}`)
     }
   }
 
   useEffect(() => {
     handleGraphData()
-  }, [countryData])
+  }, [countryDataUsa, countryDataRusia])
 
   Chart.register(...registerables);
 
@@ -58,7 +62,7 @@ export default function DinamicExtraVehicularActivity() {
             <option value={Country.USA}>Usa</option>
             <option value={Country.BOTH}>Both</option>
           </select>
-          <input onKeyUp={handleYear} type="text" required placeholder="Type Year from 1965 to 1993" className="w-1/2 border-b border-secondary px-3 py-2 focus:outline-none focus:border-b-2 focus:border-secondary" />
+          <input onKeyUp={handleYear} type="text" required placeholder={`Type Year from ${MIN_YEAR} to ${MAX_YEAR}`} className="w-1/2 border-b border-secondary px-3 py-2 focus:outline-none focus:border-b-2 focus:border-secondary" />
         </div>
         {showGraphic && <Bubble {...graphData} />}
       </div>

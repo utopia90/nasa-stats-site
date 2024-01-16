@@ -1,14 +1,15 @@
 'use server'
 import React from 'react';
-import { getData } from "../pages/utils";
+import { getTotalMeteoritCountInYearsRange } from "../pages/utils";
 import DashBoard from '../components/DashBoard';
 
 
  async function Home() {
-  const data = await getData()
+  const firstYearsRange = {min: 1822, max: 1832}
+  let yearsRange: number[] = getTotalMeteoritCountInYearsRange(firstYearsRange)
 
   return (
-    <DashBoard initialData={data}/>
+    <DashBoard initialData={yearsRange} yearsRange={firstYearsRange}/>
   )
 }
 

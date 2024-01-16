@@ -7,7 +7,7 @@ export interface DataI {
   datasets: { label: string; data: { x: number; y: number; r: number; }[]; backgroundColor: string; }[]
 }
 export interface GraPhI { data: DataI, options: {} }
-function getDinamicOptionsData(minYear: number, maxYear: number, countryData: VehicularDataI[], country: Country) {
+function getDinamicOptionsData(minYear: number, maxYear: number, countryDataRussia: number[], countryDataUsa: number[], country: Country) {
 
   const titleCountry = country === Country.BOTH ? 'Russia And USA' : country
 
@@ -58,10 +58,7 @@ function getDinamicOptionsData(minYear: number, maxYear: number, countryData: Ve
     }
     return result;
   }
-  function getTotalActivityNumberByYear(countryData: VehicularDataI[], year: number) {
-    return countryData.filter((activity: VehicularDataI) => new Date(activity.date).getFullYear() == year).length
 
-  }
   const labels = generateYearsRange()
 
   function getBubbleSize(totalActivity: number) {
@@ -78,15 +75,14 @@ function getDinamicOptionsData(minYear: number, maxYear: number, countryData: Ve
 
   const datasets = []
 
-  const countryDataUSA = country == Country.BOTH ? [...countryData].filter(({ country }) => country == Country.USA) : countryData
-  const countryDataRussia = country == Country.BOTH ? [...countryData].filter(({ country }) => country == Country.RUSSIA) : countryData
+  
   if (country == Country.USA || country == Country.BOTH) {
     datasets.push({
       label: 'USA',
-      data: [...labels].map((year) => ({
+      data: [...labels].map((year, i) => ({
         x: year,
-        y: getTotalActivityNumberByYear(countryDataUSA, year),
-        r: getBubbleSize(getTotalActivityNumberByYear(countryDataUSA, year))
+        y: countryDataUsa[i],
+        r: getBubbleSize(countryDataUsa[i])
       })),
       backgroundColor:  '#ff598f',
     })
@@ -94,10 +90,10 @@ function getDinamicOptionsData(minYear: number, maxYear: number, countryData: Ve
   if (country == Country.RUSSIA || country == Country.BOTH) {
     datasets.push({
       label: 'Russia',
-      data: [...labels].map((year) => ({
+      data: [...labels].map((year, i) => ({
         x: year,
-        y: getTotalActivityNumberByYear(countryDataRussia, year),
-        r: getBubbleSize(getTotalActivityNumberByYear(countryDataRussia, year))
+        y: countryDataRussia[i],
+        r: getBubbleSize(countryDataRussia[i])
       })),
       backgroundColor:  '#01dddd',
     })

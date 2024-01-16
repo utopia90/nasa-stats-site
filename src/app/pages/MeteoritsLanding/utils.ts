@@ -1,12 +1,10 @@
 import { MeteoritsData } from ".";
 
 
+export const getMappedOptionsData = (yearsRange: {min: number, max: number}, meteoritData: number[]) => {
 
-export const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-
-export const getMappedOptionsData = (page: number, rawData: MeteoritsData) => {
   const GRAPH_COLOR = '#8DA6CE'
-
+  const MAX =  Math.max.apply(null, meteoritData);
   const options = {
     responsive: true,
     plugins: {
@@ -30,7 +28,7 @@ export const getMappedOptionsData = (page: number, rawData: MeteoritsData) => {
         y:{
            // defining min and max so hiding the dataset does not change scale range
         min: 0,
-        max: 15,
+        max: MAX,
           grid: {
             drawBorder: true,
             color: GRAPH_COLOR,
@@ -53,33 +51,27 @@ export const getMappedOptionsData = (page: number, rawData: MeteoritsData) => {
     }}
   
   };
-  const sortedData = rawData.sort((a, b) => {
-    var yearA = new Date(a.year).getTime();
-    var yearB = new Date(b.year).getTime();
   
-    return yearA - yearB;
-  })
-  const getTotalMeteoritsLandingByYear = (year: number) => {
-     const meteoritsNumber = rawData.filter((data) => new Date(data.year).getFullYear() == year).length
-     return meteoritsNumber
+  function generateYearsRange() {
+    let result = [];
+    for (let i = yearsRange?.min; i <= yearsRange?.max; i++) {
+      result.push(i);
+    }
+    return result;
   }
-  
-  const NUM_ENTRIES = 20
-  const dataSample = sortedData.slice(page, page + NUM_ENTRIES)
-  const labels = dataSample.map((sample) => new Date(sample.year).getFullYear())
+  const labels = generateYearsRange()
   const data = {
     labels,
     datasets: [
       {
         label: 'Total Number Of Meteorits Landings By Year',
-        data: dataSample.map((sample) => getTotalMeteoritsLandingByYear(new Date(sample.year).getFullYear())),
+        data: meteoritData,
         borderColor: 'rgb(53, 162, 235)',
   }]
 
   };
-  const lastVisitbleYear = new Date(dataSample[dataSample.length -1].year).getFullYear()
 
-  return {options, data, lastVisitbleYear }
+  return {options, data }
   
 }
 

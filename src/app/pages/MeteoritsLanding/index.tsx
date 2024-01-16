@@ -1,11 +1,12 @@
 
 'use client'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Chart, registerables } from 'chart.js';
 
 
 import { Line } from 'react-chartjs-2';
-import { delay, getMappedOptionsData } from './utils';
+import { getMappedOptionsData } from './utils';
+import { getTotalMeteoritCountInYearsRange } from '../utils';
 
 
 export type MeteoritsData = Meteorits[]
@@ -28,19 +29,36 @@ export interface Geolocation {
   longitude: string
 }
 export type initialData = {
-  initialData: MeteoritsData
+  initialData: number[]
+  firstyearsRange: {
+    min: number,
+    max: number
+  }
 }
 
-export default function MeteoritsLanding({ initialData }: initialData) {
-  const [page, setPage] = useState<number>(0)
-  const { options, data, lastVisitbleYear } = getMappedOptionsData(page, initialData)
-  const showBackButton = page >= 20
+export default function MeteoritsLanding({ initialData, firstyearsRange }: initialData) {
+  const [yearsRange , setYearsRange]= useState(firstyearsRange)
+  const [meteoritData, setMeteoritData] = useState(initialData)
+
+  const { options, data } = getMappedOptionsData(yearsRange, meteoritData)
+  const showBackButton = yearsRange?.max >= firstyearsRange?.max
   const LAST_DATA_YEAR = 2013
-  const [componentsVisible, setComponentsVisible] = useState(false);
+
+  useEffect(() => {
+    async function fetchData(){
+      const newData = await getTotalMeteoritCountInYearsRange(yearsRange)
+      setMeteoritData(newData as number[])
+    }
+
+    fetchData()
+  }, [yearsRange])
 
   function handleForwardNavigation() {
-    if (lastVisitbleYear < LAST_DATA_YEAR) {
-      setPage((prevValue) => prevValue += 20)
+    if (yearsRange.max < LAST_DATA_YEAR) {
+      setYearsRange({
+        min: yearsRange.min + 10,
+        max: yearsRange.max + 10,
+      })
     } else {
       alert("We do not have more available data")
     }
@@ -51,26 +69,21 @@ export default function MeteoritsLanding({ initialData }: initialData) {
 
     const value = (e.target as HTMLButtonElement).value
 
-    if (value == 'back' && page >= 20) {
-      setPage((prevValue) => prevValue -= 20)
+    if (value == 'back' && showBackButton) {
+      setYearsRange({
+        min: yearsRange.min - 10,
+        max: yearsRange.max -  10,
+      })
     } else {
       handleForwardNavigation()
     }
   }
-  React.useEffect(() => {
-    const fetchData = async () => {
-      await delay(500); // Espera medio segundo
-      setComponentsVisible(true);
-    };
 
-    fetchData();
-  }, []);
 
   Chart.register(...registerables);
 
   return (
     <>
-      { componentsVisible && 
         <main>
           <div className="container mx-auto  w-11/12">
             <Line options={options} data={data} />
@@ -85,6 +98,6 @@ export default function MeteoritsLanding({ initialData }: initialData) {
             </button>
           </div>
         </main>
-      }
+    
     </>)
 }

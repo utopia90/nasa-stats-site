@@ -7,11 +7,15 @@ import { getCurrentPage, userSelectionOptions } from './utils'
 
 
 type DashBoardProps = {
-  initialData: []
+  initialData: number[]
+  yearsRange: {
+    min: number,
+    max: number
+  }
 }
-export default function DashBoard({ initialData }: DashBoardProps) {
+export default function DashBoard({ initialData, yearsRange }: DashBoardProps) {
   const [userSelectionPage, setUserSelectionPage] = React.useState<userSelectionOptions>(userSelectionOptions.ONE)
-  const UserContent = getCurrentPage(userSelectionPage, initialData)
+  const UserContent = getCurrentPage(userSelectionPage, initialData, yearsRange)
 
   
   return (

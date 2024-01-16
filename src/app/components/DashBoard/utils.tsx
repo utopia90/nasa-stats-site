@@ -6,9 +6,12 @@ import DinamicExtraVehicularActivity from "@/app/pages/DinamicExtraVehicularActi
 export enum userSelectionOptions {
   ONE, TWO, THREE
 }
-export function getCurrentPage(userSelection: userSelectionOptions, initialData: []) {
+export function getCurrentPage(userSelection: userSelectionOptions, initialData: number[],  yearsRange: {
+  min: number,
+  max: number
+}) {
 const routes =  {
-[userSelectionOptions.ONE]: <MeteoritsLanding initialData={initialData}/>,
+[userSelectionOptions.ONE]: <MeteoritsLanding initialData={initialData} firstyearsRange={yearsRange}/>,
 [userSelectionOptions.TWO]: <ExtraVehicularActivity/>,
 [userSelectionOptions.THREE]: <DinamicExtraVehicularActivity/>
 }
