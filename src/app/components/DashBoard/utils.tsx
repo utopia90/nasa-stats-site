@@ -8,12 +8,9 @@ const DinamicExtraVehicularActivity = lazy(() => import( "@/app/pages/DinamicExt
 export enum userSelectionOptions {
   ONE, TWO, THREE
 }
-export function getCurrentPage(userSelection: userSelectionOptions, initialData: number[],  yearsRange: {
-  min: number,
-  max: number
-}) {
+export function getCurrentPage(userSelection: userSelectionOptions) {
 const routes =  {
-[userSelectionOptions.ONE]: <MeteoritsLanding initialData={initialData} firstyearsRange={yearsRange}/>,
+[userSelectionOptions.ONE]: <MeteoritsLanding/>,
 [userSelectionOptions.TWO]: <ExtraVehicularActivity/>,
 [userSelectionOptions.THREE]: <DinamicExtraVehicularActivity/>
 }

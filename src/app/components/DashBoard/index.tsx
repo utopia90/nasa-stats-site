@@ -5,17 +5,10 @@ const MainContent = lazy(() => import('../MainContent'));
 import { getCurrentPage, userSelectionOptions } from './utils'
 
 
-
-type DashBoardProps = {
-  initialData: number[]
-  yearsRange: {
-    min: number,
-    max: number
-  }
-}
-export default function DashBoard({ initialData, yearsRange }: DashBoardProps) {
+export default function DashBoard() {
+  
   const [userSelectionPage, setUserSelectionPage] = React.useState<userSelectionOptions>(userSelectionOptions.ONE)
-  const UserContent = getCurrentPage(userSelectionPage, initialData, yearsRange)
+  const UserContent = getCurrentPage(userSelectionPage)
 
   
   return (

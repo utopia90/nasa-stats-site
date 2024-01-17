@@ -27,27 +27,27 @@ export interface Geolocation {
   latitude: string
   longitude: string
 }
-export type initialData = {
-  initialData: number[]
-  firstyearsRange: {
-    min: number,
-    max: number
-  }
-}
 
-export default function MeteoritsLanding({ initialData, firstyearsRange }: initialData) {
-  const [yearsRange, setYearsRange] = useState(firstyearsRange)
-  const [meteoritData, setMeteoritData] = useState(initialData)
+
+export default function MeteoritsLanding() {
+  const MIN_YEAR = 1822
+  const YEARS_RANGE = 10
+  const MAX_YEAR = MIN_YEAR + YEARS_RANGE
+
+  const firstYearsRange = { min: MIN_YEAR, max: MAX_YEAR }
+  
+  const [yearsRange, setYearsRange] = useState(firstYearsRange)
+  const [meteoritData, setMeteoritData] = useState<number[]>([])
 
   const { options, data } = getMappedOptionsData(yearsRange, meteoritData)
-  const showBackButton = yearsRange?.max >= firstyearsRange?.max
+  const showBackButton = yearsRange?.max >= firstYearsRange?.max
   const LAST_DATA_YEAR = 2013
 
-  const showGraphic = initialData?.length > 0
+  const showGraphic = meteoritData?.length > 0
 
   useEffect(() => {
     async function fetchData() {
-      const newData = getTotalMeteoritCountInYearsRange(yearsRange)
+      const newData = await getTotalMeteoritCountInYearsRange(yearsRange)
       setMeteoritData(newData as number[])
     }
 
