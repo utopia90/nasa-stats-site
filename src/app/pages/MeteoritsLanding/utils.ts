@@ -1,4 +1,3 @@
-import { MeteoritsData } from ".";
 
 
 export const getMappedOptionsData = (yearsRange: {min: number, max: number}, meteoritData: number[]) => {

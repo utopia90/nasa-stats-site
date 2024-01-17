@@ -36,16 +36,18 @@ export type initialData = {
 }
 
 export default function MeteoritsLanding({ initialData, firstyearsRange }: initialData) {
-  const [yearsRange , setYearsRange]= useState(firstyearsRange)
+  const [yearsRange, setYearsRange] = useState(firstyearsRange)
   const [meteoritData, setMeteoritData] = useState(initialData)
 
   const { options, data } = getMappedOptionsData(yearsRange, meteoritData)
   const showBackButton = yearsRange?.max >= firstyearsRange?.max
   const LAST_DATA_YEAR = 2013
 
+  const showGraphic = initialData?.length > 0
+
   useEffect(() => {
-    async function fetchData(){
-      const newData = await getTotalMeteoritCountInYearsRange(yearsRange)
+    async function fetchData() {
+      const newData = getTotalMeteoritCountInYearsRange(yearsRange)
       setMeteoritData(newData as number[])
     }
 
@@ -71,7 +73,7 @@ export default function MeteoritsLanding({ initialData, firstyearsRange }: initi
     if (value == 'back' && showBackButton) {
       setYearsRange({
         min: yearsRange.min - 10,
-        max: yearsRange.max -  10,
+        max: yearsRange.max - 10,
       })
     } else {
       handleForwardNavigation()
@@ -82,8 +84,9 @@ export default function MeteoritsLanding({ initialData, firstyearsRange }: initi
   Chart.register(...registerables);
 
   return (
-    <>
-        <main>
+    <main>
+      {showGraphic ?
+        <>
           <div className="container mx-auto  w-11/12">
             <Line options={options} data={data} />
           </div>
@@ -95,8 +98,8 @@ export default function MeteoritsLanding({ initialData, firstyearsRange }: initi
             <button value="forward" onClick={handlePageNavigation} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 min-w-40 rounded-full">
               Forward
             </button>
-          </div>
-        </main>
-    
-    </>)
+          </div></> : 'Loading data... '
+      }
+    </main>
+  )
 }
