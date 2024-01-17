@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from 'react';
 import { Chart, registerables } from 'chart.js';
 
-
 import { Line } from 'react-chartjs-2';
 import { getMappedOptionsData } from './utils';
 import { getTotalMeteoritCountInYearsRange } from '../utils';

@@ -6,23 +6,26 @@ import { GraPhI, getDinamicOptionsData } from './utils';
 
 
 
+
 export default function DinamicExtraVehicularActivity() {
 
 
-  const RANGE_YEARS = 20
+  const RANGE_YEARS = 10
   const MIN_YEAR = 1965
   const MAX_YEAR = 1993
 
   const [minYear, setMinYear] = useState(0)
   const maxYear = minYear + RANGE_YEARS
-  const [graphData, setGraphData] = useState<GraPhI>(Object)
+  const [graphData, setGraphData] = useState<GraPhI | null>(null)
   let [country, setCountry] = useState('')
 
-  const { yearsData: countryDataRusia } = useExtraVehicularData( Country.RUSSIA, { min: minYear, max: maxYear })
-  const { yearsData: countryDataUsa } = useExtraVehicularData( Country.USA, { min: minYear, max: maxYear })
+ 
+  const { yearsData: countryDataRusia , loading, error} =  useExtraVehicularData(Country.RUSSIA, { min: minYear, max: maxYear }) 
+  const { yearsData: countryDataUsa } = useExtraVehicularData(Country.USA, { min: minYear, max: maxYear })
 
 
-  const showGraphic = minYear >= MIN_YEAR && country?.length > 0
+
+  const showGraphic =  graphData &&  minYear >= MIN_YEAR && country.length !== 0
 
 
   function handleSelect(e: ChangeEvent<HTMLSelectElement>) {
@@ -31,29 +34,37 @@ export default function DinamicExtraVehicularActivity() {
   }
 
   function handleGraphData() {
-    const { data, options } = getDinamicOptionsData(minYear, maxYear, countryDataRusia, countryDataUsa, country as Country)
-    const graphData: GraPhI = {
-      data: data,
-      options: options
-    }
-    setGraphData(graphData)
+      const { data, options } =  getDinamicOptionsData(minYear, maxYear, countryDataRusia, countryDataUsa,country as Country)
+      const newGraphData: GraPhI = {
+        data: data,
+        options: options
+      }
+     setGraphData(newGraphData)
   }
-  function handleYear(e: React.KeyboardEvent<HTMLInputElement>) {
+
+   function handleYear(e: React.KeyboardEvent<HTMLInputElement>) {
     const year = Number(e.currentTarget.value)
     if (year < 1000) return;
     if (Number(year) >= MIN_YEAR && Number(year) <= MAX_YEAR) {
-      setMinYear(Number(year))
+       setMinYear(Number(year))
+       
     } else {
       alert(`Please write a year between ${MIN_YEAR} and ${MAX_YEAR}`)
     }
   }
 
-  useEffect(() => {
-    handleGraphData()
+  useEffect(() => {      
+    
+      if(minYear >= MIN_YEAR && country?.length > 0){
+        handleGraphData()
+      }
+      
   }, [minYear, country])
 
   Chart.register(...registerables);
-
+  
+  if(loading) return 'Loading data...'
+  if(error) return 'Error loading data...'
 
   return (
     <>

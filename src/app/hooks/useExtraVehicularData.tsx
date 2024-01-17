@@ -25,17 +25,21 @@ export interface MissionsDuration {
   limit: number
 }
 const useExtraVehicularData = (country: Country, yearRange: { min: number, max: number }, missionsByDuration?: MissionsDuration) => {
+  
+  
   const [yearsData, setYearsData] = useState<number[]>([]);
   const [missionsByDurationData, setMissionsByDurationData] = useState<VehicularDataI[]>([])
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
+  const BASE_URL = 'https://data.nasa.gov/resource/9kcy-zwvn.json'
+
   async function getMissionsByDuration(){
-    const url = country === Country.BOTH ? `https://data.nasa.gov/resource/9kcy-zwvn.json?$where=date>='${yearRange.min}-01-01T00:00:00.000' AND date<='${yearRange.max}-12-31T23:59:59.999'&$order=duration ${missionsByDuration?.sort}&$limit=${missionsByDuration?.limit}` : `https://data.nasa.gov/resource/9kcy-zwvn.json?$where=country='${country}' AND date>='${yearRange.min}-01-01T00:00:00.000' AND date<='${yearRange.max}-12-31T23:59:59.999'&$order=duration ${missionsByDuration?.sort}&$limit=${missionsByDuration?.limit}`;
+    const urlWithParams = country === Country.BOTH ? `${BASE_URL}?$where=date>='${yearRange.min}-01-01T00:00:00.000' AND date<='${yearRange.max}-12-31T23:59:59.999'&$order=duration ${missionsByDuration?.sort}&$limit=${missionsByDuration?.limit}` : `${BASE_URL}?$where=country='${country}' AND date>='${yearRange.min}-01-01T00:00:00.000' AND date<='${yearRange.max}-12-31T23:59:59.999'&$order=duration ${missionsByDuration?.sort}&$limit=${missionsByDuration?.limit}`;
 
    
    try {
-    const response = await fetch(url);
+    const response = await fetch(urlWithParams);
     const jsonData = await response.json();
      return jsonData
   } catch (error) {
@@ -46,10 +50,10 @@ const useExtraVehicularData = (country: Country, yearRange: { min: number, max: 
 
   }
   async function getResultsPerYearAndCountry(year: number) {
-    const url = country === Country.BOTH?  `https://data.nasa.gov/resource/9kcy-zwvn.json?$where=date>='${yearRange.min}-01-01T00:00:00.000' AND date<='${yearRange.max}-12-31T23:59:59.999'&$select=count(*)` : `https://data.nasa.gov/resource/9kcy-zwvn.json?$where=date>='${year}-01-01T00:00:00.000' AND date<='${year}-12-31T23:59:59.999'&country=${country}&$select=count(*)` 
+    const urlWithParams = country === Country.BOTH?  `${BASE_URL}?$where=date>='${yearRange.min}-01-01T00:00:00.000' AND date<='${yearRange.max}-12-31T23:59:59.999'&$select=count(*)` : `${BASE_URL}?$where=date>='${year}-01-01T00:00:00.000' AND date<='${year}-12-31T23:59:59.999'&country=${country}&$select=count(*)` 
 
     try {
-      const response = await fetch(url);
+      const response = await fetch(urlWithParams);
       const jsonData = await response.json();
        return jsonData[0].count
     } catch (error) {
@@ -80,6 +84,7 @@ const useExtraVehicularData = (country: Country, yearRange: { min: number, max: 
 
   });
   return { yearsData, missionsByDurationData, loading, error };
+  
 };
 
 export default useExtraVehicularData;

@@ -1,6 +1,8 @@
-import MeteoritsLanding from "@/app/pages/MeteoritsLanding"
-import ExtraVehicularActivity from "@/app/pages/ExtraVehicularActivity"
-import DinamicExtraVehicularActivity from "@/app/pages/DinamicExtraVehicularActivity"
+import React, {lazy} from 'react'
+const MeteoritsLanding = lazy(() => import( "@/app/pages/MeteoritsLanding"));
+const ExtraVehicularActivity = lazy(() => import( "@/app/pages/ExtraVehicularActivity"));
+const DinamicExtraVehicularActivity = lazy(() => import( "@/app/pages/DinamicExtraVehicularActivity"));
+
 
 
 export enum userSelectionOptions {

@@ -1,7 +1,7 @@
 'use client'
-import React from 'react'
-import Sidebar from '../Sidebar'
-import MainContent from '../MainContent'
+import React, {lazy} from 'react'
+const Sidebar = lazy(() => import('../Sidebar'));
+const MainContent = lazy(() => import('../MainContent'));
 import { getCurrentPage, userSelectionOptions } from './utils'
 
 
