@@ -16,7 +16,7 @@ export default function DinamicExtraVehicularActivity() {
 
   const [minYear, setMinYear] = useState(0)
   const maxYear = minYear + RANGE_YEARS
-  const [graphData, setGraphData] = useState<GraPhI | null>(null)
+  const [graphData, setGraphData] = useState<GraPhI  | null>(null) 
   let [country, setCountry] = useState('')
 
  
@@ -47,24 +47,24 @@ export default function DinamicExtraVehicularActivity() {
     if (year < 1000) return;
     if (Number(year) >= MIN_YEAR && Number(year) <= MAX_YEAR) {
        setMinYear(Number(year))
-       
     } else {
       alert(`Please write a year between ${MIN_YEAR} and ${MAX_YEAR}`)
     }
   }
 
   useEffect(() => {      
-    
-      if(minYear >= MIN_YEAR && country?.length > 0){
-        handleGraphData()
-      }
-      
-  }, [minYear, country])
+    if(minYear >= MIN_YEAR){
+      handleGraphData()
+    }else{
+      setGraphData(null)
+    }
+  }, [countryDataRusia, countryDataUsa])
 
   Chart.register(...registerables);
   
-  if(loading) return 'Loading data...'
+  if(loading ) return 'Loading  data...'
   if(error) return 'Error loading data...'
+
 
   return (
     <>
@@ -78,7 +78,7 @@ export default function DinamicExtraVehicularActivity() {
           </select>
           <input onKeyUp={handleYear} type="text" required placeholder={`Type Year from ${MIN_YEAR} to ${MAX_YEAR}`} className="w-1/2 border-b border-secondary px-3 py-2 focus:outline-none focus:border-b-2 focus:border-secondary" />
         </div>
-        {showGraphic && <Bubble {...graphData} />}
+        {showGraphic && <Bubble {...graphData} /> }
       </div>
     </>
   )
